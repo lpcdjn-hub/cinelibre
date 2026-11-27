@@ -98,9 +98,9 @@ renderChannels();
 const movieSearch=search,movieResults=document.querySelector('#movieResults'),movieStatus=document.querySelector('#movieStatus'),playerModal=document.querySelector('#playerModal'),archivePlayer=document.querySelector('#archivePlayer');
 function safeText(value){return String(value||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 async function searchArchive(){
- const term=search.value.trim();movieStatus.textContent=term?'Recherche des films autorisés…':'Chargement des films gratuits…';movieResults.innerHTML='';
+ const term=search.value.trim();movieStatus.textContent=term?'Recherche dans les films du domaine public…':'Chargement du catalogue de films du domaine public…';movieResults.innerHTML='';
  const safeTerm=term.replace(/[^a-zA-Z0-9À-ÿ\s]/g,' ').trim().split(/\s+/).filter(Boolean).join(' AND ');
- const q='mediatype:movies AND (licenseurl:http*publicdomain* OR licenseurl:http*creativecommons.org/licenses/*)'+(safeTerm?' AND title:('+safeTerm+')':'');
+ const q='collection:prelinger AND mediatype:movies'+(safeTerm?' AND title:('+safeTerm+')':'');
  const params=new URLSearchParams({q,rows:'18',page:'1',output:'json'});
  ['identifier','title','year','licenseurl','description'].forEach(f=>params.append('fl[]',f));
  try{
@@ -109,8 +109,8 @@ async function searchArchive(){
   if(!response.ok)throw new Error('Service indisponible');
   const data=await response.json();const docs=(data.response&&data.response.docs)||[];
   const allowed=docs.filter(x=>x.identifier&&(String(x.licenseurl||'').toLowerCase().includes('publicdomain')||String(x.licenseurl||'').toLowerCase().includes('creativecommons.org/licenses/')));
-  if(!allowed.length){movieStatus.textContent='Aucun résultat avec une licence identifiée pour cette recherche. Essaie un autre mot-clé.';return;}
-  movieStatus.textContent=allowed.length+' résultat(s) trouvés. Choisis un film pour le regarder ici.';
+  if(!allowed.length){movieStatus.textContent='Aucun film du domaine public trouvé pour cette recherche. Essaie un autre mot-clé.';return;}
+  movieStatus.textContent=allowed.length+' film(s) du domaine public trouvés. Choisis un titre pour le regarder ici.';
   movieResults.innerHTML=allowed.map(x=>{const license=String(x.licenseurl||'');const label=/publicdomain/i.test(license)?'Domaine public':'Creative Commons';return '<article class="movie-card"><span class="license">'+label+'</span><h3>'+safeText(x.title||x.identifier)+'</h3><p>'+safeText(x.year||'Année non précisée')+'</p><button class="watch-btn" data-watch="'+safeText(x.identifier)+'" data-title="'+safeText(x.title||x.identifier)+'">▶ Regarder ici</button></article>';}).join('');
   movieResults.querySelectorAll('[data-watch]').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.watch;document.querySelector('#playerTitle').textContent=btn.dataset.title;archivePlayer.src='https://archive.org/embed/'+encodeURIComponent(id);playerModal.classList.add('open');document.body.style.overflow='hidden';}));
  }catch(e){movieStatus.textContent=e.name==='AbortError'?'Le catalogue de films met trop de temps à répondre. Les chaînes disponibles restent accessibles ci-dessus.':'Le catalogue de films est momentanément indisponible. Réessaie plus tard.';}
