@@ -44,7 +44,8 @@ footer{border-top:1px solid #ffffff18;padding:24px;text-align:center;color:var(-
 
 
 <section class="player-section" id="series"><div class="sectionhead"><h2>Séries et épisodes</h2><span class="muted">Catalogue TVmaze</span></div><p class="player-intro">Fiches de séries, résumés, saisons et épisodes. Les informations sont gratuites ; la disponibilité d'une vidéo dépend des droits des diffuseurs.</p><div id="seriesStatus" class="player-status">Chargement des séries…</div><div class="player-results" id="seriesResults"></div></section>
-\n<div class="player-modal" id="playerModal" role="dialog" aria-modal="true" aria-label="Lecteur vidéo"><div class="player-box"><div class="player-head"><h2 id="playerTitle">Lecture dans CinéLibre</h2><button id="closePlayer" aria-label="Fermer le lecteur">✕ Fermer</button></div><iframe class="player-frame" id="archivePlayer" title="Lecteur vidéo Internet Archive" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="no-referrer"></iframe><p class="player-foot">Lecteur fourni par Internet Archive. La vidéo reste hébergée par son diffuseur ; les droits et disponibilités sont indiqués sur sa fiche.</p></div></div>
+
+<div class="player-modal" id="playerModal" role="dialog" aria-modal="true" aria-label="Lecteur vidéo"><div class="player-box"><div class="player-head"><h2 id="playerTitle">Lecture dans CinéLibre</h2><button id="closePlayer" aria-label="Fermer le lecteur">✕ Fermer</button></div><iframe class="player-frame" id="archivePlayer" title="Lecteur vidéo Internet Archive" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="no-referrer"></iframe><p class="player-foot">Lecteur fourni par Internet Archive. La vidéo reste hébergée par son diffuseur ; les droits et disponibilités sont indiqués sur sa fiche.</p></div></div>
 
 
 </main>
@@ -137,13 +138,14 @@ async function loadEpisodes(id,button){
   box.innerHTML=eps.length?'<strong>'+eps.length+' épisodes répertoriés</strong>'+eps.slice(0,30).map(ep=>'<p>S'+safeText(ep.season)+' · E'+safeText(ep.number)+' — '+safeText(ep.name)+' ('+safeText(ep.airdate||'date inconnue')+')</p>').join(''):'Aucun épisode répertorié.';
  }catch(e){box.textContent='Impossible de charger les épisodes pour le moment.';}
 }
-\nconst movieSearch=search,movieResults=document.querySelector('#movieResults'),movieStatus=document.querySelector('#movieStatus'),playerModal=document.querySelector('#playerModal'),archivePlayer=document.querySelector('#archivePlayer');
+
+const movieSearch=search,movieResults=document.querySelector('#movieResults'),movieStatus=document.querySelector('#movieStatus'),playerModal=document.querySelector('#playerModal'),archivePlayer=document.querySelector('#archivePlayer');
 function safeText(value){return String(value||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 async function searchArchive(){
  const term=search.value.trim();movieStatus.textContent=term?'Recherche dans les films du domaine public…':'Chargement du catalogue de films du domaine public…';movieResults.innerHTML='';
  const safeTerm=term.replace(/[^a-zA-Z0-9À-ÿ\s]/g,' ').trim().split(/\s+/).filter(Boolean).join(' AND ');
- const q='collection:prelinger AND mediatype:movies'+(safeTerm?' AND title:('+safeTerm+')':'');
- const params=new URLSearchParams({q,rows:'18',page:'1',output:'json'});
+ const q='mediatype:movies'+(safeTerm?' AND title:('+safeTerm+')':'');
+ const params=new URLSearchParams({q,rows:'100',page:'1',output:'json',sort:'downloads desc'});
  ['identifier','title','year','licenseurl','description'].forEach(f=>params.append('fl[]',f));
  try{
   const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
@@ -165,6 +167,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&playerModal.classLi
 
 // Les annuaires externes ne sont plus affichés : priorité aux contenus lisibles ici.
 // Les contenus apparaissent directement à l'ouverture.
-search.addEventListener('input',()=>{renderChannels();clearTimeout(seriesTimer);seriesTimer=setTimeout(loadSeries,450);});document.querySelector('#searchBtn').addEventListener('click',()=>{renderChannels();searchArchive();loadSeries();});document.querySelector('nav a[href="#favoris"]').addEventListener('click',e=>{e.preventDefault();document.querySelector('#regarder').scrollIntoView({behavior:'smooth'});});searchArchive();
+search.addEventListener('input',()=>{renderChannels();clearTimeout(seriesTimer);seriesTimer=setTimeout(loadSeries,450);});document.querySelector('#searchBtn').addEventListener('click',()=>{renderChannels();searchArchive();loadSeries();});document.querySelector('nav a[href="#favoris"]').addEventListener('click',e=>{e.preventDefault();document.querySelector('#regarder').scrollIntoView({behavior:'smooth'});});searchArchive();loadSeries();
 </script>
 </body></html>
