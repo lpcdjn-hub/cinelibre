@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101018">
+<meta name="description" content="CinéLibre — découvrez des films, séries et chaînes gratuits proposés légalement par leurs diffuseurs.">
+<title>CinéLibre — Le cinéma accessible</title>
+<style>
+:root{color-scheme:dark;--bg:#101018;--panel:#1a1a27;--muted:#a8a8bb;--text:#f7f5ff;--accent:#a78bfa;--line:#303044}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#38235e 0,transparent 42%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:22px clamp(18px,5vw,64px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff18;position:sticky;top:0;background:#101018eF;backdrop-filter:blur(14px);z-index:3}
+.brand{display:flex;gap:12px;align-items:center;font-weight:850;font-size:1.35rem;letter-spacing:-.04em}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#c4b5fd,#6d28d9);display:grid;place-items:center;color:#171020;font-size:22px}
+nav{display:flex;gap:18px;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-size:.93rem}nav a:hover{color:white}
+main{max-width:1200px;margin:auto;padding:34px 22px 70px}.hero{padding:46px clamp(20px,5vw,58px);border:1px solid #ffffff20;border-radius:26px;background:linear-gradient(115deg,#29203e,#171724 65%);overflow:hidden}
+.eyebrow{color:#c4b5fd;text-transform:uppercase;font-size:.76rem;letter-spacing:.16em;font-weight:800}.hero h1{font-size:clamp(2.25rem,6vw,4.6rem);line-height:1.02;letter-spacing:-.06em;max-width:720px;margin:14px 0}.hero p{color:#d0ccdc;max-width:650px}.hero strong{color:white}
+.searchrow{display:flex;gap:10px;margin-top:24px;max-width:720px}.searchrow input,select{background:#11111b;border:1px solid #48445b;border-radius:12px;color:white;padding:14px 15px;font:inherit;min-width:0}.searchrow input{flex:1}.searchrow input:focus,select:focus{outline:2px solid var(--accent)}
+button,.pill{border:1px solid var(--line);background:#222233;color:white;padding:10px 14px;border-radius:999px;font:inherit;cursor:pointer}button:hover,.pill.active{background:#6d42bb;border-color:#a78bfa}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin:25px 0 30px}.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:28px 0 14px}.sectionhead h2{font-size:1.45rem;margin:0;letter-spacing:-.03em}.muted{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:15px}.tile{background:linear-gradient(145deg,#222235,#171722);border:1px solid #ffffff17;border-radius:18px;padding:18px;min-height:190px;display:flex;flex-direction:column}.tiletop{display:flex;justify-content:space-between;align-items:center}.symbol{width:42px;height:42px;border-radius:13px;background:#34284d;display:grid;place-items:center;font-size:21px}.tile h3{margin:15px 0 4px;font-size:1.1rem}.tile p{margin:0 0 14px;color:var(--muted);font-size:.9rem}.tile .actions{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px}.tile a{color:#d6c7ff;text-decoration:none;font-weight:700;font-size:.9rem}.tile a:hover{text-decoration:underline}.star{font-size:1.15rem;padding:6px 10px}
+.notice{margin-top:26px;padding:17px 19px;border:1px solid #61518b;border-radius:15px;background:#211b31;color:#d9d3e9;font-size:.9rem}.empty{padding:28px;border:1px dashed #48445b;border-radius:16px;color:var(--muted);text-align:center;grid-column:1/-1}
+footer{border-top:1px solid #ffffff18;padding:24px;text-align:center;color:var(--muted);font-size:.85rem}
+@media(max-width:600px){header{align-items:flex-start;gap:12px}nav{gap:10px;justify-content:flex-end}nav a{font-size:.82rem}.hero{padding:32px 22px}.searchrow{flex-direction:column}.searchrow button{width:100%}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">▶</div><span>CinéLibre</span></div><nav><a href="#decouvrir">Découvrir</a><a href="#plateformes">Plateformes</a><a href="#favoris">Mes favoris <span id="favCount">0</span></a></nav></header>
+<main>
+<section class="hero"><div class="eyebrow">Le cinéma accessible</div><h1>Vos découvertes.<br>Sans frontières.</h1><p>Explorez des catalogues gratuits proposés par des diffuseurs et des plateformes légales. <strong>Un seul point de départ pour découvrir le monde du cinéma.</strong></p>
+<div class="searchrow"><input id="search" type="search" placeholder="Rechercher un film, une série, une plateforme…" aria-label="Rechercher"><button id="searchBtn">Rechercher</button></div></section>
+<div class="filters" id="filters"><button class="pill active" data-filter="Tous">Tout découvrir</button><button class="pill" data-filter="Films">Films</button><button class="pill" data-filter="Séries">Séries</button><button class="pill" data-filter="TV en direct">TV en direct</button><button class="pill" data-filter="Documentaires">Documentaires</button><button class="pill" data-filter="Favoris">♥ Favoris</button></div>
+<section id="decouvrir"><div class="sectionhead"><h2>Explorer les catalogues gratuits</h2><span class="muted" id="resultCount"></span></div><div class="grid" id="catalog"></div></section>
+<section id="plateformes"><div class="sectionhead"><h2>Des plateformes à découvrir</h2></div><div class="grid" id="platforms"></div></section>
+<div class="notice"><strong>À savoir :</strong> la disponibilité varie selon les pays et les droits de diffusion. CinéLibre ne diffuse pas de copies non autorisées. La lecture intégrée sera proposée uniquement lorsque le diffuseur autorise l’intégration ; sinon, le bouton mène à sa plateforme officielle.</div>
+</main>
+<footer>CinéLibre · Un projet indépendant fondé par Lauris Coucaud · Accès gratuit aux ressources répertoriées</footer>
+<script>
+const items=[
+{ id:'ia-films',title:'Films du domaine public',type:'Films',region:'International',desc:'Explorez les films libres et les archives audiovisuelles.',icon:'🎞️',url:'https://archive.org/details/feature_films',source:'Internet Archive' },
+{ id:'ia-tv',title:'Archives télévisées',type:'TV en direct',region:'International',desc:'Collections et archives télévisées consultables en ligne.',icon:'📺',url:'https://archive.org/details/television',source:'Internet Archive' },
+{ id:'wiki',title:'Films et vidéos libres',type:'Documentaires',region:'International',desc:'Médias réutilisables et contenus sous licences libres.',icon:'🌍',url:'https://commons.wikimedia.org/wiki/Category:Videos',source:'Wikimedia Commons' },
+{ id:'arte',title:'ARTE',type:'Documentaires',region:'Europe',desc:'Documentaires, culture, cinéma et programmes en replay.',icon:'🎭',url:'https://www.arte.tv/',source:'Diffuseur officiel' },
+{ id:'frtv',title:'France.tv',type:'Séries',region:'France',desc:'Programmes, séries et émissions du service public.',icon:'🇫🇷',url:'https://www.france.tv/',source:'Diffuseur officiel' },
+{ id:'pluto',title:'Pluto TV',type:'TV en direct',region:'Selon pays',desc:'Chaînes thématiques et contenus à la demande gratuits avec publicité.',icon:'📡',url:'https://pluto.tv/',source:'Plateforme officielle' },
+{ id:'rakuten',title:'Rakuten TV – Gratuit',type:'Films',region:'Selon pays',desc:'Sélection de films gratuits financés par la publicité selon disponibilité.',icon:'🍿',url:'https://www.rakuten.tv/',source:'Plateforme officielle' },
+{ id:'plex',title:'Plex – Films et TV',type:'Films',region:'Selon pays',desc:'Films, programmes et chaînes gratuits selon le territoire.',icon:'▶️',url:'https://watch.plex.tv/',source:'Plateforme officielle' }
+];
+const platforms=[
+{ id:'p-arte',title:'ARTE',desc:'Culture, cinéma et documentaires.',icon:'🎭',region:'Europe',url:'https://www.arte.tv/' },
+{ id:'p-pluto',title:'Pluto TV',desc:'Chaînes en direct et contenus à la demande.',icon:'📡',region:'Selon pays',url:'https://pluto.tv/' },
+{ id:'p-archive',title:'Internet Archive',desc:'Archives audiovisuelles et films du domaine public.',icon:'🏛️',region:'International',url:'https://archive.org/details/movies' },
+{ id:'p-commons',title:'Wikimedia Commons',desc:'Vidéos et œuvres sous licences libres.',icon:'🌐',region:'International',url:'https://commons.wikimedia.org/wiki/Category:Videos' }
+];
+let active='Tous';let favorites=JSON.parse(localStorage.getItem('cinelibre-favs')||'[]');
+const catalog=document.querySelector('#catalog'),platformBox=document.querySelector('#platforms'),search=document.querySelector('#search');
+function card(x,platform=false){const saved=favorites.includes(x.id);return `<article class="tile"><div class="tiletop"><div class="symbol">${x.icon}</div>${platform?'<span class="muted">'+x.region+'</span>':`<button class="star" data-star="${x.id}" aria-label="Ajouter ${x.title} aux favoris">${saved?'♥':'♡'}</button>`}</div><h3>${x.title}</h3><p>${x.desc}</p><div class="actions"><span class="muted">${platform?x.region:(x.source+' · '+x.type)}</span><a href="${x.url}" target="_blank" rel="noopener noreferrer">Découvrir ↗</a></div></article>`}
+function render(){let q=search.value.trim().toLocaleLowerCase('fr');let list=items.filter(x=>(active==='Tous'||(active==='Favoris'?favorites.includes(x.id):x.type===active))&&(!q||[x.title,x.desc,x.type,x.region,x.source].join(' ').toLocaleLowerCase('fr').includes(q)));catalog.innerHTML=list.length?list.map(x=>card(x)).join(''):'<div class="empty">Aucun résultat. Essaie un autre mot ou une autre catégorie.</div>';document.querySelector('#resultCount').textContent=list.length+' catalogue(s)';document.querySelector('#favCount').textContent=favorites.length;document.querySelectorAll('[data-star]').forEach(b=>b.addEventListener('click',()=>{let id=b.dataset.star;favorites=favorites.includes(id)?favorites.filter(v=>v!==id):[...favorites,id];localStorage.setItem('cinelibre-favs',JSON.stringify(favorites));render()}))}
+platformBox.innerHTML=platforms.map(x=>card(x,true)).join('');
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{active=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(z=>z.classList.toggle('active',z===b));render()}));
+search.addEventListener('input',render);document.querySelector('#searchBtn').addEventListener('click',render);render();
+</script>
+</body></html>
