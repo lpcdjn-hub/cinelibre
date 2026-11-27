@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101018">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CinéLibre">
 <meta name="description" content="CinéLibre — découvrez des films, séries et chaînes gratuits proposés légalement par leurs diffuseurs.">
 <title>CinéLibre — Le cinéma accessible</title>
 <style>
@@ -11,7 +15,7 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#38235e 0,transparent 42%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
 header{padding:12px clamp(18px,5vw,64px);display:flex;align-items:center;gap:20px;justify-content:space-between;border-bottom:1px solid #ffffff18;position:sticky;top:0;background:#101018f5;backdrop-filter:blur(14px);z-index:3;flex-wrap:wrap}
 .brand{display:flex;gap:12px;align-items:center;font-weight:850;font-size:1.35rem;letter-spacing:-.04em}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#c4b5fd,#6d28d9);display:grid;place-items:center;color:#171020;font-size:22px}
-nav{display:flex;gap:18px;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-size:.93rem}nav a:hover{color:white}
+nav{display:flex;gap:18px;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-size:.93rem}nav a:hover{color:white}.app-actions{display:flex;gap:8px;align-items:center}.app-actions button{font-size:.88rem;padding:9px 12px;white-space:nowrap}.app-actions .install-btn{background:#6d42bb;border-color:#a78bfa}
 main{max-width:1200px;margin:auto;padding:8px 22px 70px}.hero{padding:46px clamp(20px,5vw,58px);border:1px solid #ffffff20;border-radius:26px;background:linear-gradient(115deg,#29203e,#171724 65%);overflow:hidden}
 .eyebrow{color:#c4b5fd;text-transform:uppercase;font-size:.76rem;letter-spacing:.16em;font-weight:800}.hero h1{font-size:clamp(2.25rem,6vw,4.6rem);line-height:1.02;letter-spacing:-.06em;max-width:720px;margin:14px 0}.hero p{color:#d0ccdc;max-width:650px}.hero strong{color:white}
 .searchrow{display:flex;gap:10px;margin-top:24px;max-width:720px}.searchrow input,select{background:#11111b;border:1px solid #48445b;border-radius:12px;color:white;padding:14px 15px;font:inherit;min-width:0}.searchrow input{flex:1}.searchrow input:focus,select:focus{outline:2px solid var(--accent)}
@@ -24,11 +28,11 @@ footer{border-top:1px solid #ffffff18;padding:24px;text-align:center;color:var(-
 .player-section{margin:34px 0}.player-intro{color:var(--muted);max-width:760px}.player-search{display:flex;gap:10px;margin:18px 0}.player-search input{flex:1;min-width:0;background:#11111b;border:1px solid #48445b;border-radius:12px;color:white;padding:14px;font:inherit}.player-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.movie-card{background:linear-gradient(145deg,#222235,#171722);border:1px solid #ffffff17;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}.movie-card h3{margin:0;font-size:1.02rem}.movie-card p{margin:0;color:var(--muted);font-size:.85rem}.license{font-size:.75rem;color:#c4b5fd}.watch-btn{margin-top:auto;border-radius:10px;background:#6d42bb;border:0;padding:11px}.player-modal{position:fixed;inset:0;background:#05050bee;z-index:10;display:none;align-items:center;justify-content:center;padding:16px}.player-modal.open{display:flex}.player-box{width:min(100%,980px);background:#171722;border:1px solid #51466d;border-radius:18px;padding:14px}.player-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.player-head h2{font-size:1rem;margin:0}.player-frame{width:100%;aspect-ratio:16/9;border:0;background:#000;border-radius:10px}.player-foot{color:var(--muted);font-size:.8rem;margin:10px 0 0}.player-status{color:var(--muted);padding:18px 0}
 @media(max-width:600px){.player-search{flex-direction:column}.player-search button{width:100%}.player-box{padding:10px}.player-head h2{font-size:.9rem}}
 
-@media(max-width:600px){header{display:flex;flex-direction:column;align-items:stretch;gap:9px;padding:12px 16px}.brand{font-size:1.2rem}nav{width:100%;display:flex;flex-wrap:nowrap;justify-content:space-between;gap:8px;overflow-x:auto;padding:2px 0 5px}nav a{font-size:.82rem;white-space:nowrap}.searchrow{display:flex;flex-direction:row;width:100%;margin:0;gap:7px}.searchrow input{width:100%;padding:11px 12px;font-size:.92rem}.searchrow button{width:auto;white-space:nowrap;padding:10px 12px;font-size:.88rem}.player-section{margin:18px 0}.sectionhead{margin:16px 0 10px}}
+@media(max-width:600px){header{display:flex;flex-direction:column;align-items:stretch;gap:9px;padding:12px 16px}.brand{font-size:1.2rem}nav{width:100%;display:flex;flex-wrap:nowrap;justify-content:space-between;gap:8px;overflow-x:auto;padding:2px 0 5px}nav a{font-size:.82rem;white-space:nowrap}.app-actions{width:100%}.app-actions button{flex:1;font-size:.82rem;padding:10px 8px}.searchrow{display:flex;flex-direction:row;width:100%;margin:0;gap:7px}.searchrow input{width:100%;padding:11px 12px;font-size:.92rem}.searchrow button{width:auto;white-space:nowrap;padding:10px 12px;font-size:.88rem}.player-section{margin:18px 0}.sectionhead{margin:16px 0 10px}}
 </style>
 </head>
 <body>
-<header><div class="brand"><div class="logo">▶</div><span>CinéLibre</span></div><nav><a href="#regarder">Films & séries</a><a href="#chaines">TV en direct</a><a href="#favoris">Mes favoris <span id="favCount">0</span></a></nav><div class="searchrow"><input id="search" type="search" placeholder="Rechercher un film, une série ou une chaîne…" aria-label="Rechercher"><button id="searchBtn">Rechercher</button></div></header>
+<header><div class="brand"><div class="logo">▶</div><span>CinéLibre</span></div><nav><a href="#regarder">Films & séries</a><a href="#chaines">TV en direct</a><a href="#favoris">Mes favoris <span id="favCount">0</span></a></nav><div class="app-actions"><button id="installApp" class="install-btn" type="button">⬇ Télécharger l’application</button><button id="shareApp" type="button">↗ Partager</button></div><div class="searchrow"><input id="search" type="search" placeholder="Rechercher un film, une série ou une chaîne…" aria-label="Rechercher"><button id="searchBtn">Rechercher</button></div></header>
 <main>
 
 
@@ -61,6 +65,19 @@ const platforms=[
 ];
 let active='Tous';let favorites=JSON.parse(localStorage.getItem('cinelibre-favs')||'[]');
 const search=document.querySelector('#search');
+let installPrompt=null;
+const installButton=document.querySelector('#installApp');
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;installButton.textContent='⬇ Installer l’application';});
+installButton.addEventListener('click',async()=>{
+ if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.textContent='Application';return;}
+ if(window.matchMedia('(display-mode: standalone)').matches){alert('CinéLibre est déjà installé sur cet appareil.');return;}
+ alert('Pour installer CinéLibre : ouvre le menu de ton navigateur puis choisis « Ajouter à l’écran d’accueil » ou « Installer l’application ».');
+});
+document.querySelector('#shareApp').addEventListener('click',async()=>{
+ const shareData={title:'CinéLibre',text:'Découvre CinéLibre : films, séries et chaînes accessibles gratuitement.',url:location.href};
+ try{if(navigator.share){await navigator.share(shareData);}else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(shareData.url);alert('Lien de CinéLibre copié !');}else{prompt('Copie le lien de CinéLibre :',shareData.url);}}catch(e){if(e.name!=='AbortError')alert('Le partage n’a pas pu être ouvert. Tu peux copier le lien depuis la barre d’adresse.');}
+});
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
 function card(x,platform=false){const saved=favorites.includes(x.id);return `<article class="tile"><div class="tiletop"><div class="symbol">${x.icon}</div>${platform?'<span class="muted">'+x.region+'</span>':`<button class="star" data-star="${x.id}" aria-label="Ajouter ${x.title} aux favoris">${saved?'♥':'♡'}</button>`}</div><h3>${x.title}</h3><p>${x.desc}</p><div class="actions"><span class="muted">${platform?x.region:(x.source+' · '+x.type)}</span><a href="${x.url}" target="_blank" rel="noopener noreferrer">Découvrir ↗</a></div></article>`}
 function render(){let q=search.value.trim().toLocaleLowerCase('fr');let list=items.filter(x=>(active==='Tous'||(active==='Favoris'?favorites.includes(x.id):x.type===active))&&(!q||[x.title,x.desc,x.type,x.region,x.source].join(' ').toLocaleLowerCase('fr').includes(q)));catalog.innerHTML=list.length?list.map(x=>card(x)).join(''):'<div class="empty">Aucun résultat. Essaie un autre mot ou une autre catégorie.</div>';document.querySelector('#resultCount').textContent=list.length+' catalogue(s)';document.querySelector('#favCount').textContent=favorites.length;document.querySelectorAll('[data-star]').forEach(b=>b.addEventListener('click',()=>{let id=b.dataset.star;favorites=favorites.includes(id)?favorites.filter(v=>v!==id):[...favorites,id];localStorage.setItem('cinelibre-favs',JSON.stringify(favorites));render()}))}
 
