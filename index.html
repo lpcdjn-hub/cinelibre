@@ -168,5 +168,20 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&playerModal.classLi
 // Les annuaires externes ne sont plus affichés : priorité aux contenus lisibles ici.
 // Les contenus apparaissent directement à l'ouverture.
 search.addEventListener('input',()=>{renderChannels();clearTimeout(seriesTimer);seriesTimer=setTimeout(loadSeries,450);});document.querySelector('#searchBtn').addEventListener('click',()=>{renderChannels();searchArchive();loadSeries();});document.querySelector('nav a[href="#favoris"]').addEventListener('click',e=>{e.preventDefault();document.querySelector('#regarder').scrollIntoView({behavior:'smooth'});});searchArchive();loadSeries();
+
+// Actualisation automatique des catalogues : au lancement puis toutes les 24 heures.
+// Les API restent les sources des nouveautés ; aucun contenu vidéo n'est copié ni hébergé ici.
+const CATALOG_REFRESH_MS=24*60*60*1000;
+let lastCatalogRefresh=Date.now();
+async function refreshCatalogs(){
+  lastCatalogRefresh=Date.now();
+  await Promise.allSettled([loadIptvOrg(),searchArchive(),loadSeries()]);
+}
+setInterval(()=>{
+  if(document.visibilityState==='visible' && Date.now()-lastCatalogRefresh>=CATALOG_REFRESH_MS) refreshCatalogs();
+},15*60*1000);
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible' && Date.now()-lastCatalogRefresh>=CATALOG_REFRESH_MS) refreshCatalogs();
+});
 </script>
 </body></html>
