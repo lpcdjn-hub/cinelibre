@@ -66,7 +66,7 @@ function safeText(value){return String(value||'').replace(/[&<>"']/g,c=>({'&':'&
 async function searchArchive(){
  const term=movieSearch.value.trim();if(!term){movieStatus.textContent='Indique un mot-clé pour rechercher des films.';movieResults.innerHTML='';return;}
  movieStatus.textContent='Recherche des films autorisés…';movieResults.innerHTML='';
- const q='mediatype:movies AND (licenseurl:http*publicdomain* OR licenseurl:http*creativecommons.org/licenses/*) AND title:('+term.replace(/[\\+\\-!(){}\\[\\]^"~*?:\\\\/]/g,' ').trim()+')';
+ const q='mediatype:movies AND (licenseurl:http*publicdomain* OR licenseurl:http*creativecommons.org/licenses/*) AND title:('+term.replace(/[^\\p{L}\\p{N}\\s]/gu,' ').trim().split(/\\s+/).join(' AND ')+')';
  const params=new URLSearchParams({q,rows:'18',page:'1',output:'json'});
  ['identifier','title','year','licenseurl','description'].forEach(f=>params.append('fl[]',f));
  try{
